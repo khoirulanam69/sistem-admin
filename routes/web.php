@@ -35,7 +35,3 @@ Route::post('/menu/submenu', 'MenuController@createsubmenu');
 Route::delete('/menu/submenu/{id}', 'MenuController@deletesubmenu');
 Route::get('/blocked', 'AuthController@blocked');
 Route::get('/logout', 'AuthController@logout');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
