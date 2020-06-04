@@ -10,8 +10,8 @@
         <div class="sidebar-heading">
             {{ $um->menu }}
         </div>
-        @foreach ($usersubmenu as $usm)                   
-            @if ($um->id == $usm->menu_id)                    
+        @foreach ($usersubmenu as $usm)
+            @if ($um->id == $usm->menu_id)
                 <!-- Nav Item - Dashboard -->
                 <li class="nav-item active">
                 <a class="nav-link" href="{{ url($usm->url) }}">
@@ -30,9 +30,9 @@
 @endsection
 @section('container')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Submenu Management</h1>         
+        <h1 class="h3 mb-0 text-gray-800">Submenu Management</h1>
     </div>
-    
+
     @if (session('status'))
         <div class="alert alert-success">
             {{ session('status') }}
@@ -56,7 +56,7 @@
                             @foreach ($usermenu as $um)
                                 <option value="{{ $um->id }}">{{ $um->menu }}</option>
                             @endforeach
-                    </select>                
+                    </select>
                 </div>
             </div>
             <div class="form-group row">
@@ -81,7 +81,7 @@
             <div class="modal-footer mt-2">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">Save changes</button>
-            </div>                   
+            </div>
         </form>
     @endsection
 
@@ -100,7 +100,7 @@
                     </tr>
                 </thead>
                 @php($i = 1)
-                @foreach ($usersubmenu as $submenu)   
+                @foreach ($usersubmenu as $submenu)
                 <tbody>
                     <tr>
                         <th scope="row">{{ $i }}</th>

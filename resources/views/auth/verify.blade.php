@@ -26,7 +26,7 @@
                             </form>
                         </div>
                         <div class="col-sm-4 text-right">
-                            <a href="{{ url('/logout') }}">back to login page <i class="fas fa-arrow-right"></i></a>
+                            <a href="{{ url('/logout') }}">logout</a>
                         </div>
                     </div>
                 </div>

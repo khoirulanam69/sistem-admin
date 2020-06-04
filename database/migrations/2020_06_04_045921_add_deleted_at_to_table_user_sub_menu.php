@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableUserAccessMenu extends Migration
+class AddDeletedAtToTableUserSubMenu extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateTableUserAccessMenu extends Migration
      */
     public function up()
     {
-        Schema::create('table_user_access_menu', function (Blueprint $table) {
-            $table->id();
-            $table->integer('role_id');
-            $table->integer('table_user_menu_id');
-            $table->timestamps();
+        Schema::table('table_user_sub_menu', function (Blueprint $table) {
+            $table->softDeletes();
         });
     }
 
@@ -28,6 +25,8 @@ class CreateTableUserAccessMenu extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_user_access_menu');
+        Schema::table('table_user_sub_menu', function (Blueprint $table) {
+            //
+        });
     }
 }

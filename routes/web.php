@@ -22,6 +22,8 @@ Route::get('/registration', 'AuthController@registration');
 Route::post('/registration', 'AuthController@registrationStore');
 Route::get('/forgotpassword', 'AuthController@forgotpassword');
 Route::get('/admin', 'AdminController@index')->middleware(['auth', 'verified']);
+Route::get('/admin/listuser', 'AdminController@listuser');
+Route::get('/admin/listuser/search', 'AdminController@search');
 Route::get('/user', 'UserController@index')->middleware(['auth', 'verified']);
 Route::get('/user/edit', 'UserController@edit');
 Route::post('/user/edit', 'UserController@update');
