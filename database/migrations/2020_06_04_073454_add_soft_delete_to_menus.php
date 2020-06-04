@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableUserRole extends Migration
+class AddSoftDeleteToMenus extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class CreateTableUserRole extends Migration
      */
     public function up()
     {
-        Schema::create('table_user_role', function (Blueprint $table) {
-            $table->id();
-            $table->string('role');
-            $table->timestamps();
+        Schema::table('menus', function (Blueprint $table) {
+            $table->softDeletes();
         });
     }
 
@@ -27,6 +25,8 @@ class CreateTableUserRole extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_user_role');
+        Schema::table('menus', function (Blueprint $table) {
+            //
+        });
     }
 }

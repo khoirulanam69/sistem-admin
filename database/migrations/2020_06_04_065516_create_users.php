@@ -20,8 +20,9 @@ class CreateUsers extends Migration
             $table->string('image');
             $table->string('password');
             $table->integer('role_id');
-            $table->integer('is_active');
             $table->integer('date_created');
+            $table->string('remember_token');
+            $table->dateTime('email_verified_at')->nullable();
         });
     }
 

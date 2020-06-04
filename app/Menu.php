@@ -5,11 +5,9 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class UserMenu extends Model
+class Menu extends Model
 {
     use SoftDeletes;
-
-    protected $table = "table_user_menu";
 
     protected $fillable = ['menu'];
 

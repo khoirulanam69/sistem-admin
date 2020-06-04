@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableUserAccessMenu extends Migration
+class CreateSubmenus extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,13 @@ class CreateTableUserAccessMenu extends Migration
      */
     public function up()
     {
-        Schema::create('table_user_access_menu', function (Blueprint $table) {
+        Schema::create('submenus', function (Blueprint $table) {
             $table->id();
-            $table->integer('role_id');
-            $table->integer('table_user_menu_id');
+            $table->integer('menu_id')->unsigned();
+            $table->string('title');
+            $table->string('icon');
+            $table->string('url');
+            $table->integer('is_active');
             $table->timestamps();
         });
     }
@@ -28,6 +31,6 @@ class CreateTableUserAccessMenu extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('table_user_access_menu');
+        Schema::dropIfExists('submenus');
     }
 }

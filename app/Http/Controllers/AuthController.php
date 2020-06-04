@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use \Auth;
 use \App\User;
+use \App\Menu;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -39,13 +40,13 @@ class AuthController extends Controller
                     $this->request->session()->put('email', $u->email);
 
                     if ($u->role_id == 1) {
-                        return redirect('/admin');                     
+                        return redirect('/admin');
                     } else {
                         return redirect('/user');
                     }
                 } else {
                     return redirect('/')->with('error', 'Account not activated! Please activate your account');
-                }            
+                }
             }
         } else {
             return redirect('/')->with('error', 'Login failed! Email or password was wrong');
@@ -76,7 +77,6 @@ class AuthController extends Controller
         $user->image = 'default.png';
         $user->password = Hash::make($this->request->password);
         $user->role_id = 2;
-        $user->is_active = 1;
         $user->remember_token = '';
         $user->date_created = time();
         $user->email_verified_at = null;
