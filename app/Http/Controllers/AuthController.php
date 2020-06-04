@@ -35,17 +35,13 @@ class AuthController extends Controller
             ->get();
         if (Auth::attempt(['email' => $this->request->email, 'password' => $this->request->password])) {
             foreach ($user as $u) {
-                if ($u->is_active == 1) {
-                    $this->request->session()->put('role_id', $u->role_id);
-                    $this->request->session()->put('email', $u->email);
+                $this->request->session()->put('role_id', $u->role_id);
+                $this->request->session()->put('email', $u->email);
 
-                    if ($u->role_id == 1) {
-                        return redirect('/admin');
-                    } else {
-                        return redirect('/user');
-                    }
+                if ($u->role_id == 1) {
+                    return redirect('/admin');
                 } else {
-                    return redirect('/')->with('error', 'Account not activated! Please activate your account');
+                    return redirect('/user');
                 }
             }
         } else {
