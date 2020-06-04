@@ -22,14 +22,14 @@ class AdminController extends Controller
         $menu = $this->request->segment(1);
 
         $menu_id = Menu::where('menu', $menu)->get();
-        $usermenu = DB::table('table_user_menu')
-            ->join('table_user_access_menu', 'table_user_menu.id', '=', 'table_user_access_menu.table_user_menu_id')
-            ->select('table_user_menu.*')
-            ->where('table_user_access_menu.role_id', '=', $role_id)
+        $usermenu = DB::table('menus')
+            ->join('accesses', 'menus.id', '=', 'accesses.menu_id')
+            ->select('menus.*')
+            ->where('accesses.role_id', '=', $role_id)
             ->get();
-        $usersubmenu = DB::table('table_user_sub_menu')
-            ->join('table_user_menu', 'table_user_menu.id', '=', 'table_user_sub_menu.table_user_menu_id')
-            ->select('table_user_sub_menu.*')
+        $usersubmenu = DB::table('submenus')
+            ->join('menus', 'menus.id', '=', 'submenus.menu_id')
+            ->select('submenus.*')
             ->get();
 
         $user = User::where('email', '=', $email)->get();
@@ -40,7 +40,7 @@ class AdminController extends Controller
         }
         $accessed = false;
         foreach ($menu_id as $id) {
-            $access = Access::where('role_id', $role_id)->where('table_user_menu_id', $id->id)->get();
+            $access = Access::where('role_id', $role_id)->where('menu_id', $id->id)->get();
             foreach ($access as $acc) {
                 if ($acc->menu_id) {
                     $accessed = true;
@@ -63,14 +63,14 @@ class AdminController extends Controller
         $menu = $this->request->segment(1);
 
         $menu_id = Menu::where('menu', $menu)->get();
-        $usermenu = DB::table('table_user_menu')
-            ->join('table_user_access_menu', 'table_user_menu.id', '=', 'table_user_access_menu.table_user_menu_id')
-            ->select('table_user_menu.*')
-            ->where('table_user_access_menu.role_id', '=', $role_id)
+        $usermenu = DB::table('menus')
+            ->join('accesses', 'menus.id', '=', 'accesses.menu_id')
+            ->select('menus.*')
+            ->where('accesses.role_id', '=', $role_id)
             ->get();
-        $usersubmenu = DB::table('table_user_sub_menu')
-            ->join('table_user_menu', 'table_user_menu.id', '=', 'table_user_sub_menu.table_user_menu_id')
-            ->select('table_user_sub_menu.*')
+        $usersubmenu = DB::table('submenus')
+            ->join('menus', 'menus.id', '=', 'submenus.menu_id')
+            ->select('submenus.*')
             ->get();
         $user = User::where('email', '=', $email)->get();
         $users = User::paginate(10);
@@ -80,7 +80,7 @@ class AdminController extends Controller
         }
         $accessed = false;
         foreach ($menu_id as $id) {
-            $access = Access::where('role_id', $role_id)->where('table_user_menu_id', $id->id)->get();
+            $access = Access::where('role_id', $role_id)->where('menu_id', $id->id)->get();
             foreach ($access as $acc) {
                 if ($acc->menu_id) {
                     $accessed = true;
@@ -109,14 +109,14 @@ class AdminController extends Controller
         $menu = $this->request->segment(1);
 
         $menu_id = Menu::where('menu', $menu)->get();
-        $usermenu = DB::table('table_user_menu')
-            ->join('table_user_access_menu', 'table_user_menu.id', '=', 'table_user_access_menu.table_user_menu_id')
-            ->select('table_user_menu.*')
-            ->where('table_user_access_menu.role_id', '=', $role_id)
+        $usermenu = DB::table('menus')
+            ->join('accesses', 'menus.id', '=', 'accesses.menu_id')
+            ->select('menus.*')
+            ->where('accesses.role_id', '=', $role_id)
             ->get();
-        $usersubmenu = DB::table('table_user_sub_menu')
-            ->join('table_user_menu', 'table_user_menu.id', '=', 'table_user_sub_menu.table_user_menu_id')
-            ->select('table_user_sub_menu.*')
+        $usersubmenu = DB::table('submenus')
+            ->join('menus', 'menus.id', '=', 'submenus.menu_id')
+            ->select('submenus.*')
             ->get();
         $user = User::where('email', '=', $email)->get();
         $users = User::where('name', 'like', '%' . $search . '%')->paginate();
@@ -126,7 +126,7 @@ class AdminController extends Controller
         }
         $accessed = false;
         foreach ($menu_id as $id) {
-            $access = Access::where('role_id', $role_id)->where('table_user_menu_id', $id->id)->get();
+            $access = Access::where('role_id', $role_id)->where('menu_id', $id->id)->get();
             foreach ($access as $acc) {
                 if ($acc->menu_id) {
                     $accessed = true;

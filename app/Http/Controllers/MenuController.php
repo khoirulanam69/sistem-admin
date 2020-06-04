@@ -24,15 +24,15 @@ class MenuController extends Controller
 
         $menu_id = Menu::where('menu', $menu)->get();
         $showusermenu = Menu::all();
-        // $usermenu = UserMenu::where('table_user_access_menu.role_id', $role_id);
-        $usermenu = DB::table('table_user_menu')
-            ->join('table_user_access_menu', 'table_user_menu.id', '=', 'table_user_access_menu.table_user_menu_id')
-            ->select('table_user_menu.*')
-            ->where('table_user_access_menu.role_id', '=', $role_id)
+        // $usermenu = UserMenu::where('accesses.role_id', $role_id);
+        $usermenu = DB::table('menus')
+            ->join('accesses', 'menus.id', '=', 'accesses.menu_id')
+            ->select('menus.*')
+            ->where('accesses.role_id', '=', $role_id)
             ->get();
-        $usersubmenu = DB::table('table_user_sub_menu')
-            ->join('table_user_menu', 'table_user_menu.id', '=', 'table_user_sub_menu.table_user_menu_id')
-            ->select('table_user_sub_menu.*')
+        $usersubmenu = DB::table('submenus')
+            ->join('menus', 'menus.id', '=', 'submenus.menu_id')
+            ->select('submenus.*')
             ->get();
 
         $user = User::select()
@@ -44,7 +44,7 @@ class MenuController extends Controller
         }
         $accessed = false;
         foreach ($menu_id as $id) {
-            $access = Access::where('role_id', $role_id)->where('table_user_menu_id', $id->id)->get();
+            $access = Access::where('role_id', $role_id)->where('menu_id', $id->id)->get();
             foreach ($access as $acc) {
                 if ($acc->menu_id) {
                     $accessed = true;
@@ -77,14 +77,14 @@ class MenuController extends Controller
         $menu = $this->request->segment(1);
 
         $menu_id = Menu::where('menu', $menu)->get();
-        $usermenu = DB::table('table_user_menu')
-            ->join('table_user_access_menu', 'table_user_menu.id', '=', 'table_user_access_menu.table_user_menu_id')
-            ->select('table_user_menu.*')
-            ->where('table_user_access_menu.role_id', '=', $role_id)
+        $usermenu = DB::table('menus')
+            ->join('accesses', 'menus.id', '=', 'accesses.menu_id')
+            ->select('menus.*')
+            ->where('accesses.role_id', '=', $role_id)
             ->get();
-        $usersubmenu = DB::table('table_user_sub_menu')
-            ->join('table_user_menu', 'table_user_menu.id', '=', 'table_user_sub_menu.table_user_menu_id')
-            ->select('table_user_sub_menu.*')
+        $usersubmenu = DB::table('submenus')
+            ->join('menus', 'menus.id', '=', 'submenus.menu_id')
+            ->select('*')
             ->get();
 
         $user = User::select()
@@ -96,7 +96,7 @@ class MenuController extends Controller
         }
         $accessed = false;
         foreach ($menu_id as $id) {
-            $access = Access::where('role_id', $role_id)->where('table_user_menu_id', $id->id)->get();
+            $access = Access::where('role_id', $role_id)->where('menu_id', $id->id)->get();
             foreach ($access as $acc) {
                 if ($acc->menu_id) {
                     $accessed = true;
@@ -120,7 +120,7 @@ class MenuController extends Controller
             'icon' => 'required',
             'url' => 'required',
         ]);
-        Submenu::create($this->request->menu);
+        Submenu::create($this->request->all());
         return redirect('/menu/submenu')->with('status', 'New submenu successfuly added');
     }
 
