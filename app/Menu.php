@@ -11,8 +11,13 @@ class Menu extends Model
 
     protected $fillable = ['menu'];
 
-    public function accessmenu()
+    public function role()
     {
-        return $this->hasMany('App\UserAccessMenu');
+        return $this->belongsToMany('App\Role');
+    }
+
+    public function submenus()
+    {
+        return $this->hasMany('App\Submenu');
     }
 }

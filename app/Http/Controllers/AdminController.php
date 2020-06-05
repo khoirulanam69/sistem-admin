@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Menu;
 use App\Access;
+use App\Role;
 use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
@@ -18,29 +19,20 @@ class AdminController extends Controller
     public function index()
     {
         $email = $this->request->session()->get('email');
-        $role_id = $this->request->session()->get('role_id');
-        $menu = $this->request->segment(1);
-
-        $menu_id = Menu::where('menu', $menu)->get();
-        $usermenu = DB::table('menus')
-            ->join('accesses', 'menus.id', '=', 'accesses.menu_id')
-            ->select('menus.*')
-            ->where('accesses.role_id', '=', $role_id)
-            ->get();
-        $usersubmenu = DB::table('submenus')
-            ->join('menus', 'menus.id', '=', 'submenus.menu_id')
-            ->select('submenus.*')
-            ->get();
-
-        $user = User::where('email', '=', $email)->get();
-
+        $menu_id = Menu::where('menu', $this->request->segment(1))->get();
+        $data = [
+            'role_id' => $this->request->session()->get('role_id'),
+            'menus' => Menu::get(),
+            'roles' => Role::get(),
+            'user' => User::where('email', '=', $email)->get()
+        ];
 
         if (!$email) {
             return redirect('/');
         }
         $accessed = false;
         foreach ($menu_id as $id) {
-            $access = Access::where('role_id', $role_id)->where('menu_id', $id->id)->get();
+            $access = Access::where('role_id', $data['role_id'])->where('menu_id', $id->id)->get();
             foreach ($access as $acc) {
                 if ($acc->menu_id) {
                     $accessed = true;
@@ -50,7 +42,7 @@ class AdminController extends Controller
             }
         }
         if ($accessed) {
-            return view('admin/admin', compact('usermenu', 'usersubmenu', 'user'));
+            return view('admin/admin', $data);
         } else {
             return redirect('/blocked');
         }
@@ -59,28 +51,21 @@ class AdminController extends Controller
     public function listuser()
     {
         $email = $this->request->session()->get('email');
-        $role_id = $this->request->session()->get('role_id');
-        $menu = $this->request->segment(1);
-
-        $menu_id = Menu::where('menu', $menu)->get();
-        $usermenu = DB::table('menus')
-            ->join('accesses', 'menus.id', '=', 'accesses.menu_id')
-            ->select('menus.*')
-            ->where('accesses.role_id', '=', $role_id)
-            ->get();
-        $usersubmenu = DB::table('submenus')
-            ->join('menus', 'menus.id', '=', 'submenus.menu_id')
-            ->select('submenus.*')
-            ->get();
-        $user = User::where('email', '=', $email)->get();
-        $users = User::paginate(10);
+        $menu_id = Menu::where('menu', $this->request->segment(1))->get();
+        $data = [
+            'role_id' => $this->request->session()->get('role_id'),
+            'menus' => Menu::get(),
+            'roles' => Role::get(),
+            'user' => User::where('email', '=', $email)->get(),
+            'users' => User::paginate(10)
+        ];
 
         if (!$email) {
             return redirect('/');
         }
         $accessed = false;
         foreach ($menu_id as $id) {
-            $access = Access::where('role_id', $role_id)->where('menu_id', $id->id)->get();
+            $access = Access::where('role_id', $data['role_id'])->where('menu_id', $id->id)->get();
             foreach ($access as $acc) {
                 if ($acc->menu_id) {
                     $accessed = true;
@@ -90,7 +75,7 @@ class AdminController extends Controller
             }
         }
         if ($accessed) {
-            return view('admin/listuser', compact('usermenu', 'usersubmenu', 'user', 'users'));
+            return view('admin/listuser', $data);
         } else {
             return redirect('/blocked');
         }
@@ -105,28 +90,21 @@ class AdminController extends Controller
         }
 
         $email = $this->request->session()->get('email');
-        $role_id = $this->request->session()->get('role_id');
-        $menu = $this->request->segment(1);
-
-        $menu_id = Menu::where('menu', $menu)->get();
-        $usermenu = DB::table('menus')
-            ->join('accesses', 'menus.id', '=', 'accesses.menu_id')
-            ->select('menus.*')
-            ->where('accesses.role_id', '=', $role_id)
-            ->get();
-        $usersubmenu = DB::table('submenus')
-            ->join('menus', 'menus.id', '=', 'submenus.menu_id')
-            ->select('submenus.*')
-            ->get();
-        $user = User::where('email', '=', $email)->get();
-        $users = User::where('name', 'like', '%' . $search . '%')->paginate();
+        $menu_id = Menu::where('menu', $this->request->segment(1))->get();
+        $data = [
+            'role_id' => $this->request->session()->get('role_id'),
+            'menus' => Menu::get(),
+            'roles' => Role::get(),
+            'user' => User::where('email', '=', $email)->get(),
+            'users' => User::where('name', 'like', '%' . $search . '%')->paginate()
+        ];
 
         if (!$email) {
             return redirect('/');
         }
         $accessed = false;
         foreach ($menu_id as $id) {
-            $access = Access::where('role_id', $role_id)->where('menu_id', $id->id)->get();
+            $access = Access::where('role_id', $data['role_id'])->where('menu_id', $id->id)->get();
             foreach ($access as $acc) {
                 if ($acc->menu_id) {
                     $accessed = true;
@@ -136,7 +114,7 @@ class AdminController extends Controller
             }
         }
         if ($accessed) {
-            return view('admin/listuser', compact('usermenu', 'usersubmenu', 'user', 'users'));
+            return view('admin/listuser', $data);
         } else {
             return redirect('/blocked');
         }

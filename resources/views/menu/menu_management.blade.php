@@ -3,21 +3,29 @@
 @section('title', 'Menu Management')
 
 @section('menu')
-    @foreach ($usermenu as $um)
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            {{ $um->menu }}
-        </div>
-        @foreach ($usersubmenu as $usm)                   
-            @if ($um->id == $usm->menu_id)                    
-                <!-- Nav Item - Dashboard -->
-                <li class="nav-item active">
-                <a class="nav-link" href="{{ url($usm->url) }}">
-                    <i class="{{ $usm->icon }}"></i>
-                    <span>{{ $usm->title }}</span></a>
-                </li>
+    @foreach ($roles as $role)
+        @foreach ($role->menu as $menu)
+            @if ($role->id == $role_id)
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+                <!-- Heading -->
+
+                <div class="sidebar-heading">
+                    {{ $menu->menu }}
+                </div>
+
+                @foreach ($menus as $m)
+                    @foreach ($m->submenus as $submenu)
+                        @if ($menu->id == $submenu->menu_id)
+                        <!-- Nav Item - Dashboard -->
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{{ url($submenu->url) }}">
+                                <i class="{{ $submenu->icon }}"></i>
+                                <span>{{ $submenu->title }}</span></a>
+                            </li>
+                        @endif
+                    @endforeach
+                @endforeach
             @endif
         @endforeach
     @endforeach
@@ -30,9 +38,9 @@
 @endsection
 @section('container')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Menu Management</h1>         
+        <h1 class="h3 mb-0 text-gray-800">Menu Management</h1>
     </div>
-    
+
     @if (session('status'))
         <div class="alert alert-success">
             {{ session('status') }}
@@ -57,7 +65,7 @@
             <div class="modal-footer mt-2">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">Save changes</button>
-            </div>                   
+            </div>
         </form>
     @endsection
 
@@ -72,14 +80,14 @@
                     </tr>
                 </thead>
                 @php($i = 1)
-                @foreach ($showusermenu as $sum)   
+                @foreach ($menus as $menu)
                 <tbody>
                     <tr>
                         <th scope="row">{{ $i }}</th>
-                        <td>{{ $sum->menu }}</td>
+                        <td>{{ $menu->menu }}</td>
                         <td>
                             <a href="#"><span class="badge badge-warning">Edit</span></a>
-                            <form action="{{ '/menu/'. $sum->id }}" method="post" style="display: inline">
+                            <form action="{{ '/menu/'. $menu->id }}" method="post" style="display: inline">
                                 @csrf
                                 @method('delete')
                                 <button type="submit" style="background: transparent; border: none; color: white"><span class="badge badge-danger">Delete</span></button>

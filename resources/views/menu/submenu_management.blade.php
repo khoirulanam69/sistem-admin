@@ -3,21 +3,29 @@
 @section('title', 'Submenu Management')
 
 @section('menu')
-    @foreach ($usermenu as $um)
-        <!-- Divider -->
-        <hr class="sidebar-divider">
-        <!-- Heading -->
-        <div class="sidebar-heading">
-            {{ $um->menu }}
-        </div>
-        @foreach ($usersubmenu as $usm)
-            @if ($um->id == $usm->menu_id)
-                <!-- Nav Item - Dashboard -->
-                <li class="nav-item active">
-                <a class="nav-link" href="{{ url($usm->url) }}">
-                    <i class="{{ $usm->icon }}"></i>
-                    <span>{{ $usm->title }}</span></a>
-                </li>
+    @foreach ($roles as $role)
+        @foreach ($role->menu as $menu)
+            @if ($role->id == $role_id)
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+                <!-- Heading -->
+
+                <div class="sidebar-heading">
+                    {{ $menu->menu }}
+                </div>
+
+                @foreach ($menus as $m)
+                    @foreach ($m->submenus as $submenu)
+                        @if ($menu->id == $submenu->menu_id)
+                        <!-- Nav Item - Dashboard -->
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{{ url($submenu->url) }}">
+                                <i class="{{ $submenu->icon }}"></i>
+                                <span>{{ $submenu->title }}</span></a>
+                            </li>
+                        @endif
+                    @endforeach
+                @endforeach
             @endif
         @endforeach
     @endforeach
@@ -53,7 +61,7 @@
                 <div class="col-sm-10">
                     <select name="menu_id" class="custom-select">
                         <option selected>Select Menu</option>
-                            @foreach ($usermenu as $um)
+                            @foreach ($roles as $um)
                                 <option value="{{ $um->id }}">{{ $um->menu }}</option>
                             @endforeach
                     </select>
@@ -100,11 +108,13 @@
                     </tr>
                 </thead>
                 @php($i = 1)
-                @foreach ($usersubmenu as $submenu)
+                @foreach ($menus as $menu)
+                @foreach ($menu->submenus as $submenu)
+
                 <tbody>
                     <tr>
                         <th scope="row">{{ $i }}</th>
-                        <td>{{ $submenu->menu }}</td>
+                        <td>{{ $menu->menu }}</td>
                         <td>{{ $submenu->title }}</td>
                         <td>{{ $submenu->icon }}</td>
                         <td>{{ $submenu->url }}</td>
@@ -119,6 +129,7 @@
                         </td>
                     </tr>
                     @php($i++)
+                    @endforeach
                     @endforeach
                 </tbody>
             </table>

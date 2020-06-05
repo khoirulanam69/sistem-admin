@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Access;
 use App\Menu;
+use App\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -19,27 +20,20 @@ class UserController extends Controller
     public function index()
     {
         $email = $this->request->session()->get('email');
-        $role_id = $this->request->session()->get('role_id');
-        $menu = $this->request->segment(1);
-
-        $menu_id = Menu::where('menu', $menu)->get();
-        $usermenu = DB::table('menus')
-            ->join('accesses', 'menus.id', '=', 'accesses.menu_id')
-            ->select('menus.*')
-            ->where('accesses.role_id', '=', $role_id)
-            ->get();
-        $usersubmenu = DB::table('submenus')
-            ->join('menus', 'menus.id', '=', 'submenus.menu_id')
-            ->select('submenus.*')
-            ->get();
-        $user = User::where('email', $email)->get();
+        $menu_id = Menu::where('menu', $this->request->segment(1))->get();
+        $data = [
+            'role_id' => $this->request->session()->get('role_id'),
+            'menus' => Menu::get(),
+            'roles' => Role::get(),
+            'user' => User::where('email', '=', $email)->get(),
+        ];
 
         if (!$email) {
             return redirect('/');
         }
         $accessed = false;
         foreach ($menu_id as $id) {
-            $access = Access::where('role_id', $role_id)->where('menu_id', $id->id)->get();
+            $access = Access::where('role_id', $data['role_id'])->where('menu_id', $id->id)->get();
             foreach ($access as $acc) {
                 if ($acc->menu_id) {
                     $accessed = true;
@@ -49,7 +43,7 @@ class UserController extends Controller
             }
         }
         if ($accessed) {
-            return view('user.user', compact('usermenu', 'usersubmenu', 'user'));
+            return view('user.user', $data);
         } else {
             return redirect('/blocked');
         }
@@ -58,21 +52,14 @@ class UserController extends Controller
     public function edit()
     {
         $email = $this->request->session()->get('email');
-        $role_id = $this->request->session()->get('role_id');
-
-        $usermenu = DB::table('menus')
-            ->join('accesses', 'menus.id', '=', 'accesses.menu_id')
-            ->select('menus.*')
-            ->where('accesses.role_id', '=', $role_id)
-            ->get();
-        $usersubmenu = DB::table('submenus')
-            ->join('menus', 'menus.id', '=', 'submenus.menu_id')
-            ->select('submenus.*')
-            ->get();
-        $user = User::select()
-            ->where('email', '=', $email)
-            ->get();
-        return view('user.edit', compact('user', 'usermenu', 'usersubmenu'));
+        $menu_id = Menu::where('menu', $this->request->segment(1))->get();
+        $data = [
+            'role_id' => $this->request->session()->get('role_id'),
+            'menus' => Menu::get(),
+            'roles' => Role::get(),
+            'user' => User::where('email', '=', $email)->get(),
+        ];
+        return view('user.edit', $data);
     }
 
     public function update()

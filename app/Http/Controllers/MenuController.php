@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Menu;
+use App\Role;
 use App\Submenu;
 use App\Access;
 use Illuminate\Support\Facades\DB;
@@ -19,32 +20,20 @@ class MenuController extends Controller
     public function index()
     {
         $email = $this->request->session()->get('email');
-        $role_id = $this->request->session()->get('role_id');
-        $menu = $this->request->segment(1);
-
-        $menu_id = Menu::where('menu', $menu)->get();
-        $showusermenu = Menu::all();
-        // $usermenu = UserMenu::where('accesses.role_id', $role_id);
-        $usermenu = DB::table('menus')
-            ->join('accesses', 'menus.id', '=', 'accesses.menu_id')
-            ->select('menus.*')
-            ->where('accesses.role_id', '=', $role_id)
-            ->get();
-        $usersubmenu = DB::table('submenus')
-            ->join('menus', 'menus.id', '=', 'submenus.menu_id')
-            ->select('submenus.*')
-            ->get();
-
-        $user = User::select()
-            ->where('email', '=', $email)
-            ->get();
+        $menu_id = Menu::where('menu', $this->request->segment(1))->get();
+        $data = [
+            'role_id' => $this->request->session()->get('role_id'),
+            'menus' => Menu::get(),
+            'roles' => Role::get(),
+            'user' => User::where('email', '=', $email)->get(),
+        ];
 
         if (!$email) {
             return redirect('/');
         }
         $accessed = false;
         foreach ($menu_id as $id) {
-            $access = Access::where('role_id', $role_id)->where('menu_id', $id->id)->get();
+            $access = Access::where('role_id', $data['role_id'])->where('menu_id', $id->id)->get();
             foreach ($access as $acc) {
                 if ($acc->menu_id) {
                     $accessed = true;
@@ -54,7 +43,7 @@ class MenuController extends Controller
             }
         }
         if ($accessed) {
-            return view('menu.menu_management', compact('usermenu', 'usersubmenu', 'user', 'showusermenu'));
+            return view('menu.menu_management', $data);
         } else {
             return redirect('/blocked');
         }
@@ -73,30 +62,20 @@ class MenuController extends Controller
     public function submenu()
     {
         $email = $this->request->session()->get('email');
-        $role_id = $this->request->session()->get('role_id');
-        $menu = $this->request->segment(1);
-
-        $menu_id = Menu::where('menu', $menu)->get();
-        $usermenu = DB::table('menus')
-            ->join('accesses', 'menus.id', '=', 'accesses.menu_id')
-            ->select('menus.*')
-            ->where('accesses.role_id', '=', $role_id)
-            ->get();
-        $usersubmenu = DB::table('submenus')
-            ->join('menus', 'menus.id', '=', 'submenus.menu_id')
-            ->select('*')
-            ->get();
-
-        $user = User::select()
-            ->where('email', '=', $email)
-            ->get();
+        $menu_id = Menu::where('menu', $this->request->segment(1))->get();
+        $data = [
+            'role_id' => $this->request->session()->get('role_id'),
+            'menus' => Menu::get(),
+            'roles' => Role::get(),
+            'user' => User::where('email', '=', $email)->get(),
+        ];
 
         if (!$email) {
             return redirect('/');
         }
         $accessed = false;
         foreach ($menu_id as $id) {
-            $access = Access::where('role_id', $role_id)->where('menu_id', $id->id)->get();
+            $access = Access::where('role_id', $data['role_id'])->where('menu_id', $id->id)->get();
             foreach ($access as $acc) {
                 if ($acc->menu_id) {
                     $accessed = true;
@@ -106,7 +85,7 @@ class MenuController extends Controller
             }
         }
         if ($accessed) {
-            return view('menu.submenu_management', compact('usermenu', 'usersubmenu', 'user'));
+            return view('menu.submenu_management', $data);
         } else {
             return redirect('/blocked');
         }
