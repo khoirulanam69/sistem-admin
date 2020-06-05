@@ -46,24 +46,22 @@
             <div class="col-sm">
                 <ul class="list-group list-group-flush">
                     <div class="row">
-                        <div class="input-group mb-3">
-                            <div class="col-sm-2">
-                                    <label class="input-group-text" for="lang">Language</label>
+                        <div class="col-sm-2 d-flex">
+                            <i class="fas fa-fw fa-2x fa-language"></i>
+                            <label class="font-weight-bold ml-3" style="font-size: 20px">{{ __('settings.lang') }}</label>
+                        </div>
+                        <div class="col-sm-6 mt-1 ml-5">
+                            <div class="form-group form-check d-inline mr-4">
+                                <input type="checkbox" class="form-check-input" id="en" name="en" checked>
+                                <label class="form-check-label" for="exampleCheck1">English</label>
                             </div>
-                            <div class="col-sm-6">
-                                <select class="custom-select" id="lang" name="lang">
-                                    {{-- <option value="en">English</option> --}}
-                                    <option value="id">Indonesian</option>
-                                </select>
+                            <div class="form-group form-check d-inline">
+                                <input type="checkbox" class="form-check-input" id="id" name="id">
+                                <label class="form-check-label" for="exampleCheck1">Indonesian</label>
                             </div>
                         </div>
                     </div>
                 </ul>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-8 text-right">
-                <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>
     </form>

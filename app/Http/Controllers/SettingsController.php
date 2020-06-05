@@ -30,12 +30,4 @@ class SettingsController extends Controller
         }
         return view('settings', $data);
     }
-
-    public function update()
-    {
-        dd(App::getLocale());
-        // $value = $this->request->get('lang');
-        // App::setLocale($value);
-        return redirect()->back();
-    }
 }

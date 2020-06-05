@@ -8,6 +8,9 @@ use App\Menu;
 use App\MenuRole;
 use App\Role;
 use PDF;
+use App\Exports\UserExport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\Controller;
 
 class AdminController extends Controller
 {
@@ -127,5 +130,10 @@ class AdminController extends Controller
         ];
         $pdf = PDF::loadview('admin/userpdf', $data);
         return $pdf->stream();
+    }
+
+    public function exportexcel()
+    {
+        return Excel::download(new UserExport, 'user.xlsx');
     }
 }

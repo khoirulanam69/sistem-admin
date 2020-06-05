@@ -48,8 +48,12 @@
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
           </form>
     </div>
-    <div class="col-sm-2 text-right">
-        <form action="{{ url('/admin/listuser/download') }}" method="GET">
+    <div class="col-sm-4 text-right">
+        <form action="{{ url('/admin/listuser/download') }}" method="POST" class="d-inline">
+            @csrf
+            <button type="submit" class="btn btn-success">Export Excel</button>
+        </form>
+        <form action="{{ url('/admin/listuser/download') }}" method="GET" class="d-inline">
             <button type="submit" class="btn btn-primary">Downlaod PDF</button>
         </form>
     </div>

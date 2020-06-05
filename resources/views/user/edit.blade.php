@@ -90,7 +90,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-5 offset-lg-2">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary">{{ __('edit.btn') }}</button>
                 </div>
             </div>
         </form>

@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'title' => 'Settings'
+    'title' => 'Settings',
+    'lang' => 'Language'
 ];
