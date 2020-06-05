@@ -50,7 +50,7 @@
     </div>
     <div class="col-sm-2 text-right">
         <form action="{{ url('/admin/listuser/download') }}" method="GET">
-            <button type="submit" class="btn btn-primary">Cetak PDF</button>
+            <button type="submit" class="btn btn-primary">Downlaod PDF</button>
         </form>
     </div>
 </div>
