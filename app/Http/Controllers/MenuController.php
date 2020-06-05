@@ -7,7 +7,7 @@ use App\User;
 use App\Menu;
 use App\Role;
 use App\Submenu;
-use App\Access;
+use App\MenuRole;
 
 class MenuController extends Controller
 {
@@ -32,7 +32,7 @@ class MenuController extends Controller
         }
         $accessed = false;
         foreach ($menu_id as $id) {
-            $access = Access::where('role_id', $data['role_id'])->where('menu_id', $id->id)->get();
+            $access = MenuRole::where('role_id', $data['role_id'])->where('menu_id', $id->id)->get();
             foreach ($access as $acc) {
                 if ($acc->menu_id) {
                     $accessed = true;
@@ -74,7 +74,7 @@ class MenuController extends Controller
         }
         $accessed = false;
         foreach ($menu_id as $id) {
-            $access = Access::where('role_id', $data['role_id'])->where('menu_id', $id->id)->get();
+            $access = MenuRole::where('role_id', $data['role_id'])->where('menu_id', $id->id)->get();
             foreach ($access as $acc) {
                 if ($acc->menu_id) {
                     $accessed = true;

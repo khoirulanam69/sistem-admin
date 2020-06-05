@@ -1,6 +1,6 @@
 @extends('../templates/main')
 
-@section('title', 'Menu Management')
+@section('title', 'Edit Profile')
 
 @section('menu')
     @foreach ($roles as $role)
@@ -46,7 +46,7 @@
         <form enctype="multipart/form-data" action="{{ url('/user/edit') }}" method="POST">
             @csrf
             <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Email</label>
+                <label class="col-sm-2 col-form-label">{{ __('edit.email') }}</label>
                 <div class="col-sm-5">
                     <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ $u->email }}" readonly>
                     @error('email')
@@ -57,7 +57,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Name</label>
+                <label class="col-sm-2 col-form-label">{{ __("edit.name") }}</label>
                 <div class="col-sm-5">
                     <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ $u->name }}">
                     @error('name')
@@ -68,7 +68,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Image</label>
+                <label class="col-sm-2 col-form-label">{{ __('edit.image') }}</label>
                 <div class="col-sm-5">
                     <div class="row">
                         <div class="col-lg-4">
@@ -77,7 +77,7 @@
                         <div class="col-lg">
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input @error('image') is-invalid @enderror" id="image" name="image">
-                                <label class="custom-file-label" for="image">Choose file</label>
+                                <label class="custom-file-label" for="image">{{ __('edit.choose') }}</label>
                                 @error('image')
                                     <div class="invalid-feedback">
                                         {{ $message }}

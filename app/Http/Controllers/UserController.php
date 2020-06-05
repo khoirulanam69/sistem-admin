@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
-use App\Access;
+use App\MenuRole;
 use App\Menu;
 use App\Role;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -33,7 +32,7 @@ class UserController extends Controller
         }
         $accessed = false;
         foreach ($menu_id as $id) {
-            $access = Access::where('role_id', $data['role_id'])->where('menu_id', $id->id)->get();
+            $access = MenuRole::where('role_id', $data['role_id'])->where('menu_id', $id->id)->get();
             foreach ($access as $acc) {
                 if ($acc->menu_id) {
                     $accessed = true;

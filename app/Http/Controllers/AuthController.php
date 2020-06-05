@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use \Auth;
 use \App\User;
-use \App\Menu;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller

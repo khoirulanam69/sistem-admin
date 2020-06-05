@@ -34,5 +34,7 @@ Route::delete('/menu/{id}', 'MenuController@deletemenu');
 Route::get('/menu/submenu', 'MenuController@submenu');
 Route::post('/menu/submenu', 'MenuController@createsubmenu');
 Route::delete('/menu/submenu/{id}', 'MenuController@deletesubmenu');
+Route::get('/settings', 'SettingsController@language');
+Route::post('/settings', 'SettingsController@update');
 Route::get('/blocked', 'AuthController@blocked');
 Route::get('/logout', 'AuthController@logout');

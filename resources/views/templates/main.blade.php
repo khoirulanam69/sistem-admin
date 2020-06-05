@@ -75,6 +75,10 @@
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="dropdown-item" href="{{ url('/settings') }}">
+                  <i class="fas fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Settings
+                </a>
                 <a class="dropdown-item" href="{{ url('/user') }}">
                   <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                   Profile
@@ -153,8 +157,8 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">                                    
-                @yield('input-modal')                                                              
+            <div class="modal-body">
+                @yield('input-modal')
             </div>
         </div>
     </div>
