@@ -42,7 +42,7 @@ class MenuController extends Controller
             }
         }
         if ($accessed) {
-            return view('menu.menu_management', $data);
+            return view('menu.menu', $data);
         } else {
             return redirect('/blocked');
         }
@@ -84,7 +84,7 @@ class MenuController extends Controller
             }
         }
         if ($accessed) {
-            return view('menu.submenu_management', $data);
+            return view('menu.submenu', $data);
         } else {
             return redirect('/blocked');
         }
@@ -100,6 +100,32 @@ class MenuController extends Controller
         ]);
         Submenu::create($this->request->all());
         return redirect('/menu/submenu')->with('status', 'New submenu successfuly added');
+    }
+
+    public function editmenu($id)
+    {
+        $email = $this->request->session()->get('email');
+        $data = [
+            'role_id' => $this->request->session()->get('role_id'),
+            'menus' => Menu::get(),
+            'roles' => Role::get(),
+            'user' => User::where('email', '=', $email)->get(),
+            'show' => Menu::where('id', $id)->get(),
+        ];
+        return view('menu.menu_edit', $data);
+    }
+
+    public function editsubmenu($id)
+    {
+        $email = $this->request->session()->get('email');
+        $data = [
+            'role_id' => $this->request->session()->get('role_id'),
+            'menus' => Menu::get(),
+            'roles' => Role::get(),
+            'user' => User::where('email', '=', $email)->get(),
+            'show' => Submenu::where('id', $id)->get(),
+        ];
+        return view('menu.submenu_edit', $data);
     }
 
     public function deletemenu($id)

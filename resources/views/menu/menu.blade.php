@@ -86,7 +86,7 @@
                         <th scope="row">{{ $i }}</th>
                         <td>{{ $menu->menu }}</td>
                         <td>
-                            <a href="#"><span class="badge badge-warning">Edit</span></a>
+                            <a href="{{ url('/menu/'.$menu->id) }}"><span class="badge badge-warning">Edit</span></a>
                             <form action="{{ '/menu/'. $menu->id }}" method="post" style="display: inline">
                                 @csrf
                                 @method('delete')

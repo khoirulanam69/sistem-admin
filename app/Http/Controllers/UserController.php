@@ -51,7 +51,6 @@ class UserController extends Controller
     public function edit()
     {
         $email = $this->request->session()->get('email');
-        $menu_id = Menu::where('menu', $this->request->segment(1))->get();
         $data = [
             'role_id' => $this->request->session()->get('role_id'),
             'menus' => Menu::get(),

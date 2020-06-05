@@ -120,7 +120,7 @@
                         <td>{{ $submenu->url }}</td>
                         <td>{{ $submenu->is_active }}</td>
                         <td>
-                            <a href=""><span class="badge badge-warning">Edit</span></a>
+                            <a href="{{ url('/menu/submenu/'.$submenu->id) }}"><span class="badge badge-warning">Edit</span></a>
                             <form action="{{ '/menu/submenu/'.$submenu->id }}" method="POST" style="display: inline">
                                 @csrf
                                 @method('delete')
