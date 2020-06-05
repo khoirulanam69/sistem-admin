@@ -41,16 +41,21 @@
     <h1 class="h3 mb-0 text-gray-800">List Users</h1>
 </div>
 
-<div class="row mb-3">
+<div class="row mb-3 justify-content-between">
     <div class="col-sm-5">
         <form class="form-inline my-2 my-lg-0" action="{{ url('/admin/listuser/search') }}" method="GET">
             <input class="form-control mr-sm-2" type="search" name="search" placeholder="Search with name" value="{{ old('search') }}" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
           </form>
     </div>
+    <div class="col-sm-2 text-right">
+        <form action="{{ url('/admin/listuser/download') }}" method="GET">
+            <button type="submit" class="btn btn-primary">Cetak PDF</button>
+        </form>
+    </div>
 </div>
 <div class="row">
-    <div class="col-sm-10">
+    <div class="col-sm-12">
         {{ $users->links() }}
         <table class="table">
             <thead class="thead-dark">
@@ -63,9 +68,10 @@
                 </tr>
             </thead>
             <tbody>
+                @php $i=1 @endphp
                 @foreach ($users as $users)
                 <tr>
-                    <th scope="row">{{ $users->id }}</th>
+                    <th scope="row">{{ $i }}</th>
                     <td><?= $users->name ?></td>
                     <td><?= $users->email ?></td>
                     <td><?= date('d M Y', $users->date_created) ?></td>
@@ -75,6 +81,7 @@
                     <td>Not Active</td>
                     @endif
                 </tr>
+                @php $i++ @endphp
                 @endforeach
             </tbody>
         </table>

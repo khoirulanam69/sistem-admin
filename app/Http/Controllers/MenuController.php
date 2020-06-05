@@ -8,7 +8,6 @@ use App\Menu;
 use App\Role;
 use App\Submenu;
 use App\Access;
-use Illuminate\Support\Facades\DB;
 
 class MenuController extends Controller
 {

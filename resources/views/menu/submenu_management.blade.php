@@ -61,7 +61,7 @@
                 <div class="col-sm-10">
                     <select name="menu_id" class="custom-select">
                         <option selected>Select Menu</option>
-                            @foreach ($roles as $um)
+                            @foreach ($menus as $um)
                                 <option value="{{ $um->id }}">{{ $um->menu }}</option>
                             @endforeach
                     </select>

@@ -7,7 +7,7 @@ use App\User;
 use App\Menu;
 use App\Access;
 use App\Role;
-use Illuminate\Support\Facades\DB;
+use PDF;
 
 class AdminController extends Controller
 {
@@ -118,5 +118,14 @@ class AdminController extends Controller
         } else {
             return redirect('/blocked');
         }
+    }
+
+    public function downloadpdf()
+    {
+        $data = [
+            'users' => User::all(),
+        ];
+        $pdf = PDF::loadview('admin/userpdf', $data);
+        return $pdf->stream();
     }
 }
