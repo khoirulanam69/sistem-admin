@@ -30,19 +30,21 @@
         </thead>
         <tbody>
             @php $i=1 @endphp
-            @foreach ($users as $users)
-            <tr>
-                <th scope="row">{{ $i }}</th>
-                <td><?= $users->name ?></td>
-                <td><?= $users->email ?></td>
-                <td><?= date('d M Y', $users->date_created) ?></td>
-                @if ($users->email_verified_at != null)
-                <td>Actived</td>
-                @else
-                <td>Not Active</td>
+            @foreach ($users as $user)
+                @if ($user->role_id == 2)
+                <tr>
+                    <th scope="row">{{ $i }}</th>
+                    <td><?= $user->name ?></td>
+                    <td><?= $user->email ?></td>
+                    <td><?= date('d M Y', $user->date_created) ?></td>
+                    @if ($user->email_verified_at != null)
+                        <td>Actived</td>
+                    @else
+                        <td>Not Active</td>
+                    @endif
+                </tr>
+                @php $i++ @endphp
                 @endif
-            </tr>
-            @php $i++ @endphp
             @endforeach
         </tbody>
     </table>
