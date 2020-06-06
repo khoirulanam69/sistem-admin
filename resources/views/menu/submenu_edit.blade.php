@@ -16,7 +16,7 @@
 
                 @foreach ($menus as $m)
                     @foreach ($m->submenus as $submenu)
-                        @if ($menu->id == $submenu->menu_id)
+                        @if ($menu->id == $submenu->menu_id && $submenu->is_active == 1)
                         <!-- Nav Item - Dashboard -->
                             <li class="nav-item active">
                                 <a class="nav-link" href="{{ url($submenu->url) }}">
@@ -42,9 +42,10 @@
             {{ session('status') }}
         </div>
     @endif
-    <form enctype="multipart/form-data" action="{{ url('/user/edit') }}" method="POST">
+    @foreach ($show as $show)
+    <form enctype="multipart/form-data" action="{{ url('/menu/submenu/'.$show['id']) }}" method="POST">
+        @method('patch')
         @csrf
-        @foreach ($show as $show)
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Menu Id</label>
             <div class="col-sm-5">
@@ -99,6 +100,6 @@
                 <button type="submit" class="btn btn-primary">{{ __('edit.btn') }}</button>
             </div>
         </div>
-        @endforeach
     </form>
+    @endforeach
 @endsection

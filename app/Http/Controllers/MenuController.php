@@ -128,6 +128,39 @@ class MenuController extends Controller
         return view('menu.submenu_edit', $data);
     }
 
+    public function updatemenu($id)
+    {
+        $this->request->validate([
+            'menu' => 'required'
+        ]);
+
+        Menu::where('id', $id)->update(['menu' => $this->request->menu]);
+        return redirect(url('/menu/' . $id))->with('status', 'The menu has been updated');
+    }
+
+    public function updatesubmenu($id)
+    {
+        $this->request->validate([
+            'menu_id' => 'required',
+            'title' => 'required',
+            'icon' => 'required',
+            'url' => 'required',
+        ]);
+
+        $is_active = $this->request->is_active;
+        if ($is_active == null) {
+            $is_active = 0;
+        }
+        Submenu::where('id', $id)->update([
+            'menu_id' => $this->request->menu_id,
+            'title' => $this->request->title,
+            'icon' => $this->request->icon,
+            'url' => $this->request->url,
+            'is_active' => $is_active
+        ]);
+        return redirect(url('/menu/submenu/' . $id))->with('status', 'The submenu has been updated');
+    }
+
     public function deletemenu($id)
     {
         Menu::destroy($id);

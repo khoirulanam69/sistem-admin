@@ -16,7 +16,7 @@
 
                 @foreach ($menus as $m)
                     @foreach ($m->submenus as $submenu)
-                        @if ($menu->id == $submenu->menu_id)
+                        @if ($menu->id == $submenu->menu_id && $submenu->is_active == 1)
                         <!-- Nav Item - Dashboard -->
                             <li class="nav-item active">
                                 <a class="nav-link" href="{{ url($submenu->url) }}">
