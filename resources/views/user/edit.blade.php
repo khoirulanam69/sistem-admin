@@ -33,7 +33,7 @@
 @section('dropdown-user')
     @foreach ($user as $u)
         <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ $u->name }}</span>
-        <img class="img-profile rounded-circle" src="{{ asset('img/'.$u->image) }}">
+        <img class="img-profile rounded-circle" src="{{ asset('assets/img/'.$u->image) }}">
     @endforeach
 @endsection
 @section('container')
@@ -72,7 +72,7 @@
                 <div class="col-sm-5">
                     <div class="row">
                         <div class="col-lg-4">
-                            <img src="{{ asset('img/'.$u->image) }}" class="img-thumbnail">
+                            <img src="{{ asset('assets/img/'.$u->image) }}" class="img-thumbnail">
                         </div>
                         <div class="col-lg">
                             <div class="custom-file">

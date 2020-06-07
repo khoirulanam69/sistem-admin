@@ -72,13 +72,13 @@ class UserController extends Controller
         // delete old image
         $image = User::where('email', $email)->get()[0];
         if ($image['image'] != 'default.png') {
-            File::delete('img/' . $image['image']);
+            File::delete('assets/img/' . $image['image']);
         }
 
         // add new image
         $file = $this->request->file('image');
         $name = time() . '_' . $file->getClientOriginalName();
-        $file->move('img', $name);
+        $file->move('assets/img/', $name);
         User::where('email', $email)
             ->update([
                 'name' => $this->request->name,
