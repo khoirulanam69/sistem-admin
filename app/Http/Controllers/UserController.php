@@ -7,7 +7,7 @@ use App\User;
 use App\MenuRole;
 use App\Menu;
 use App\Role;
-use Illuminate\Support\Facades\Storage;
+use File;
 
 class UserController extends Controller
 {
@@ -64,26 +64,28 @@ class UserController extends Controller
     {
         $this->request->validate([
             'name' => 'required',
-            'image' => 'required'
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:1024'
         ]);
 
         $email = $this->request->session()->get('email');
 
         // delete old image
-        $image = User::where('email', $email)->get();
-        if ($image[0]['image'] != 'default.png') {
-            Storage::disk('local')->delete($image[0]['image']);
+        $image = User::where('email', $email)->get()[0];
+        if ($image['image'] != 'default.png') {
+            File::delete('img/' . $image['image']);
         }
 
         // add new image
-        $file = $this->request->file('image')->store('profiles');
+        $file = $this->request->file('image');
+        $name = time() . '_' . $file->getClientOriginalName();
+        $file->move('img', $name);
         User::where('email', $email)
             ->update([
                 'name' => $this->request->name,
-                'image' => $file
+                'image' => $name
             ]);
 
 
-        return redirect('/user/edit')->with('status', 'Your profile has been updated');
+        return redirect()->back()->with('status', 'Your profile has been updated');
     }
 }
