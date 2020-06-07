@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use \Auth;
-use \App\User;
+use Auth;
+use App\User;
+use App\Menu;
+use App\Role;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -87,7 +89,14 @@ class AuthController extends Controller
 
     public function blocked()
     {
-        return view('auth.blocked');
+        $email = $this->request->session()->get('email');
+        $data = [
+            'role_id' => $this->request->session()->get('role_id'),
+            'menus' => Menu::get(),
+            'roles' => Role::get(),
+            'user' => User::where('email', '=', $email)->get()
+        ];
+        return view('auth.blocked', $data);
     }
 
     public function logout()

@@ -19,7 +19,7 @@
   <form class="user" action="{{ url('/') }}" method="POST">
     @csrf
     <div class="form-group">
-      <input type="email" class="form-control form-control-user" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter Email Address...">
+      <input type="email" class="form-control form-control-user" id="email" name="email" placeholder="Enter Email Address...">
     </div>
     <div class="form-group">
       <input type="password" class="form-control form-control-user" id="password" name="password" placeholder="Password">

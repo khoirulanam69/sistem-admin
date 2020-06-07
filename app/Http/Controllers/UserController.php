@@ -64,7 +64,7 @@ class UserController extends Controller
     {
         $this->request->validate([
             'name' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:1024'
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:1000'
         ]);
 
         $email = $this->request->session()->get('email');
