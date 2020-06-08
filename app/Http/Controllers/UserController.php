@@ -51,13 +51,33 @@ class UserController extends Controller
     public function edit()
     {
         $email = $this->request->session()->get('email');
+        $menu_id = Menu::where('menu', $this->request->segment(1))->get();
         $data = [
             'role_id' => $this->request->session()->get('role_id'),
             'menus' => Menu::get(),
             'roles' => Role::get(),
             'user' => User::where('email', '=', $email)->get(),
         ];
-        return view('user.edit', $data);
+
+        if (!$email) {
+            return redirect('/');
+        }
+        $accessed = false;
+        foreach ($menu_id as $id) {
+            $access = MenuRole::where('role_id', $data['role_id'])->where('menu_id', $id->id)->get();
+            foreach ($access as $acc) {
+                if ($acc->menu_id) {
+                    $accessed = true;
+                } else {
+                    $accessed = false;
+                }
+            }
+        }
+        if ($accessed) {
+            return view('user.edit', $data);
+        } else {
+            return redirect('/blocked');
+        }
     }
 
     public function update()
