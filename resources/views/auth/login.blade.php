@@ -19,10 +19,20 @@
   <form class="user" action="{{ url('/') }}" method="POST">
     @csrf
     <div class="form-group">
-      <input type="email" class="form-control form-control-user" id="email" name="email" placeholder="Enter Email Address...">
+      <input type="email" class="form-control form-control-user @error('email') is-invalid @enderror" id="email" name="email" placeholder="Enter Email Address...">
+      @error('email')
+            <div class="invalid-feedback pl-3">
+                {{ $message }}
+            </div>
+        @enderror
     </div>
     <div class="form-group">
-      <input type="password" class="form-control form-control-user" id="password" name="password" placeholder="Password">
+      <input type="password" class="form-control form-control-user @error('password') is-invalid @enderror" id="password" name="password" placeholder="Password">
+      @error('password')
+            <div class="invalid-feedback pl-3">
+                {{ $message }}
+            </div>
+        @enderror
     </div>
     <button type="submit" class="btn btn-primary btn-user btn-block">
       Login
